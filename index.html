@@ -1,0 +1,758 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NEWSLETTER</title>
+    <style>
+      :root {
+        --bg-dark: #010f11;
+        --bg-light: #e8e8e5;
+        --paper: #f4f4f1;
+        --line: #c7c9c4;
+        --text: #121212;
+        --muted: #5f6665;
+        --teal: #0a6e68;
+        --teal-dark: #024946;
+        --accent: #8f3d46;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        background: var(--bg-light);
+        color: var(--text);
+      }
+
+      .topbar {
+        background: var(--bg-dark);
+        color: #fff;
+      }
+
+      .container {
+        width: min(1040px, 92vw);
+        margin: 0 auto;
+      }
+
+      .topbar-row {
+        min-height: 86px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+      }
+
+      .logo {
+        font-family: "Arial Black", Impact, sans-serif;
+        letter-spacing: 0.5px;
+        font-size: clamp(33px, 4.4vw, 52px);
+        line-height: 0.9;
+      }
+
+      .search {
+        display: flex;
+        align-items: center;
+        gap: 0;
+        width: min(510px, 100%);
+      }
+
+      .search input {
+        width: 100%;
+        height: 28px;
+        border: 0;
+        background: var(--teal);
+        color: #d6efec;
+        padding: 0 12px;
+        font-size: 12px;
+      }
+
+      .search input::placeholder {
+        color: #9fd0cb;
+      }
+
+      .search button {
+        height: 28px;
+        border: 0;
+        padding: 0 16px;
+        background: var(--accent);
+        color: #fff;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+        cursor: pointer;
+      }
+
+      .nav {
+        background: #031619;
+        border-top: 1px solid #0f272a;
+        border-bottom: 1px solid #1d3438;
+      }
+
+      .nav-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        gap: 1px;
+        align-items: center;
+        overflow-x: auto;
+      }
+
+      .nav-list li {
+        color: #fff;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 11px;
+        white-space: nowrap;
+        padding: 10px 14px;
+      }
+
+      .nav-list li.active {
+        background: var(--teal);
+      }
+
+      .main {
+        padding: 18px 0 30px;
+      }
+
+      .content-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 280px;
+        gap: 22px;
+      }
+
+      .feature-wrap {
+        border: 1px solid var(--line);
+        background: var(--paper);
+        padding: 8px;
+      }
+
+      .feature-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 10px;
+      }
+
+      .hero-card,
+      .mini-card,
+      .latest-card,
+      .trend-item {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-card img,
+      .mini-card img,
+      .latest-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .hero-card {
+        aspect-ratio: 1.58;
+      }
+
+      .overlay {
+        position: absolute;
+        inset: auto 0 0;
+        padding: 14px 12px;
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.86));
+        color: #fff;
+      }
+
+      .overlay h2,
+      .overlay h3 {
+        margin: 0;
+        line-height: 1.15;
+      }
+
+      .overlay h2 {
+        font-size: clamp(21px, 2.2vw, 30px);
+      }
+
+      .overlay h3 {
+        font-size: 20px;
+      }
+
+      .overlay p {
+        margin: 6px 0 0;
+        color: #d8e4e1;
+        font-size: 12px;
+      }
+
+      .feature-side {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .mini-card {
+        aspect-ratio: 1.05;
+      }
+
+      .mini-card.small {
+        aspect-ratio: 1.45;
+      }
+
+      .mini-card .overlay h3 {
+        font-size: 22px;
+      }
+
+      .mini-card.small .overlay h3 {
+        font-size: 19px;
+      }
+
+      .headline-strip {
+        margin-top: 10px;
+        border-top: 1px solid var(--line);
+        padding-top: 8px;
+      }
+
+      .headline-strip h4 {
+        margin: 0;
+        font-size: 21px;
+        line-height: 1.2;
+      }
+
+      .headline-strip p {
+        margin: 5px 0 0;
+        font-size: 11px;
+        color: #4a5553;
+      }
+
+      .section-title {
+        margin: 18px 0 10px;
+        font-size: 34px;
+        font-weight: 500;
+        border-top: 1px solid var(--line);
+        padding-top: 9px;
+      }
+
+      .latest-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      .latest-card {
+        background: var(--paper);
+        border: 1px solid var(--line);
+        display: grid;
+        grid-template-rows: auto auto;
+      }
+
+      .latest-card img {
+        aspect-ratio: 1.56;
+      }
+
+      .latest-content {
+        padding: 8px;
+      }
+
+      .latest-content h5 {
+        margin: 0;
+        font-size: 25px;
+        line-height: 1.14;
+      }
+
+      .latest-content p {
+        margin: 6px 0 0;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.3;
+      }
+
+      .view-more {
+        margin: 12px auto 0;
+        display: block;
+        border: 0;
+        background: var(--teal-dark);
+        color: #fff;
+        width: 102px;
+        height: 27px;
+        font-size: 11px;
+        cursor: pointer;
+      }
+
+      .trending {
+        background: var(--paper);
+        border: 1px solid var(--line);
+        align-self: start;
+      }
+
+      .trending header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--line);
+        padding: 9px 10px;
+      }
+
+      .trending h3 {
+        margin: 0;
+        font-size: 26px;
+        font-weight: 500;
+      }
+
+      .trending .more {
+        font-size: 11px;
+        color: #fff;
+        background: #121616;
+        border: 0;
+        padding: 4px 9px;
+      }
+
+      .trend-list {
+        list-style: none;
+        margin: 0;
+        padding: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+      }
+
+      .trend-item {
+        display: grid;
+        grid-template-columns: 74px 1fr;
+        gap: 7px;
+        border-bottom: 1px solid #d6d8d2;
+        padding-bottom: 8px;
+      }
+
+      .trend-item:last-child {
+        border-bottom: 0;
+        padding-bottom: 0;
+      }
+
+      .trend-item img {
+        width: 74px;
+        height: 74px;
+        object-fit: cover;
+        display: block;
+      }
+
+      .trend-item h6 {
+        margin: 0;
+        font-size: 15px;
+        line-height: 1.2;
+      }
+
+      .trend-item p {
+        margin: 4px 0 0;
+        font-size: 11px;
+        color: #556260;
+        line-height: 1.25;
+      }
+
+      footer {
+        margin-top: 28px;
+        background: #000f11;
+        color: #eef2ee;
+      }
+
+      .footer-row {
+        min-height: 132px;
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: 22px;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      .footer-logo {
+        font-family: "Arial Black", Impact, sans-serif;
+        font-size: 42px;
+      }
+
+      .footer-links,
+      .footer-cats {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 16px;
+        font-size: 11px;
+        color: #b6c5c2;
+      }
+
+      .footer-cats {
+        max-width: 180px;
+        justify-content: flex-end;
+      }
+
+      .article-modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(8, 11, 12, 0.65);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 24px;
+      }
+
+      .article {
+        width: min(640px, 100%);
+        max-height: 95vh;
+        overflow: auto;
+        background: #fff;
+      }
+
+      .article-cover {
+        position: relative;
+      }
+
+      .article-cover img {
+        width: 100%;
+        display: block;
+        aspect-ratio: 16/7;
+        object-fit: cover;
+      }
+
+      .close {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        border: 1px solid #dedede;
+        background: #fff;
+        line-height: 24px;
+        text-align: center;
+        font-family: Arial, sans-serif;
+      }
+
+      .article-body {
+        padding: 14px 16px 20px;
+      }
+
+      .article-body h2 {
+        margin: 0 0 10px;
+        font-size: 34px;
+        line-height: 1.2;
+      }
+
+      .meta {
+        color: #6f7675;
+        font-size: 12px;
+        margin-bottom: 10px;
+      }
+
+      .article-body p {
+        margin: 0 0 10px;
+        font-size: 18px;
+        line-height: 1.42;
+      }
+
+      .article-body .inline {
+        margin: 12px 0;
+      }
+
+      .article-body .inline img {
+        width: 100%;
+        display: block;
+      }
+
+      @media (max-width: 1024px) {
+        .content-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .trending {
+          margin-top: 10px;
+        }
+
+        .trend-list {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .footer-row {
+          grid-template-columns: 1fr;
+          text-align: center;
+          padding: 22px 0;
+        }
+
+        .footer-links,
+        .footer-cats {
+          justify-content: center;
+          max-width: none;
+        }
+      }
+
+      @media (max-width: 760px) {
+        .topbar-row {
+          flex-direction: column;
+          align-items: flex-start;
+          justify-content: center;
+          padding: 12px 0;
+        }
+
+        .feature-grid,
+        .latest-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .trend-list {
+          grid-template-columns: 1fr;
+        }
+
+        .logo {
+          font-size: 36px;
+        }
+
+        .section-title {
+          font-size: 28px;
+        }
+
+        .latest-content h5,
+        .trending h3 {
+          font-size: 24px;
+        }
+
+        .article-modal {
+          position: static;
+          padding: 0;
+          background: transparent;
+          margin-top: 18px;
+        }
+
+        .article {
+          border: 1px solid var(--line);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container topbar-row">
+        <div class="logo">NEWSLETTER</div>
+        <form class="search" action="#">
+          <input type="text" placeholder="Search for headlines" />
+          <button type="submit">Search</button>
+        </form>
+      </div>
+      <nav class="nav">
+        <div class="container">
+          <ul class="nav-list">
+            <li>Politics</li>
+            <li class="active">World</li>
+            <li>Economy</li>
+            <li>Science &amp; Tech</li>
+            <li>Business</li>
+            <li>Travel</li>
+            <li>Climate</li>
+            <li>Lifestyle</li>
+            <li>Food</li>
+            <li>Sports</li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <main class="main container">
+      <div class="content-grid">
+        <section>
+          <div class="feature-wrap">
+            <div class="feature-grid">
+              <article class="hero-card">
+                <img src="https://picsum.photos/920/560?random=1" alt="Main headline" />
+                <div class="overlay">
+                  <h2>Democrats Overhaul Party’s Primary Calendar, Upending a Political Tradition</h2>
+                </div>
+              </article>
+
+              <div class="feature-side">
+                <article class="mini-card">
+                  <img src="https://picsum.photos/420/420?random=2" alt="World headline" />
+                  <div class="overlay">
+                    <h3>Furor Over Chinese Spy Balloon Leads to Diplomatic Crisis</h3>
+                  </div>
+                </article>
+                <article class="mini-card small">
+                  <img src="https://picsum.photos/420/300?random=3" alt="Science headline" />
+                  <div class="overlay">
+                    <h3>Balloons’ More Airports to Use Greener ‘Slide’ Approach to Landing</h3>
+                  </div>
+                </article>
+              </div>
+            </div>
+
+            <div class="headline-strip">
+              <h4>Philippines Caught In Weird Enough to Take on the World</h4>
+              <p>
+                Negotiations in Manila continue as experts review global logistics and humanitarian efforts across the
+                region.
+              </p>
+            </div>
+          </div>
+
+          <h3 class="section-title">Latest News</h3>
+          <div class="latest-grid">
+            <article class="latest-card">
+              <img src="https://picsum.photos/500/320?random=10" alt="news" />
+              <div class="latest-content">
+                <h5>London to Istanbul by train: This 10-day rail adventure is a slow traveller’s dream</h5>
+                <p>
+                  Romantic cross-European train journeys have long been associated with the Orient Express, but you can
+                  do major routes in style from London to Istanbul.
+                </p>
+              </div>
+            </article>
+            <article class="latest-card">
+              <img src="https://picsum.photos/500/320?random=11" alt="news" />
+              <div class="latest-content">
+                <h5>More Airports to Use Greener ‘Slide’ Approach to Landing</h5>
+                <p>
+                  FAA officials announce smoother, lower-emission descent methods to reduce fuel burn and improve safety
+                  outcomes.
+                </p>
+              </div>
+            </article>
+            <article class="latest-card">
+              <img src="https://picsum.photos/500/320?random=12" alt="news" />
+              <div class="latest-content">
+                <h5>Europeans are the world’s heaviest drinkers. How do countries compare?</h5>
+                <p>
+                  Total alcohol consumption data reveals a significant divide between regions, with rates shifting among
+                  younger demographics.
+                </p>
+              </div>
+            </article>
+            <article class="latest-card">
+              <img src="https://picsum.photos/500/320?random=13" alt="news" />
+              <div class="latest-content">
+                <h5>DJI preps to open an outpost to trade tech, demand concerns blunt effort</h5>
+                <p>
+                  The expansion marks a strategic move amid tightening regulations and changing investor confidence.
+                </p>
+              </div>
+            </article>
+            <article class="latest-card">
+              <img src="https://picsum.photos/500/320?random=14" alt="news" />
+              <div class="latest-content">
+                <h5>A “beautification” company wants to bring back the Dodo</h5>
+                <p>
+                  Genetic reconstruction startups are drawing renewed funding and fierce ethical criticism from global
+                  researchers.
+                </p>
+              </div>
+            </article>
+            <article class="latest-card">
+              <img src="https://picsum.photos/500/320?random=15" alt="news" />
+              <div class="latest-content">
+                <h5>Arctic storms reroute flights and markets react to frozen supply chains</h5>
+                <p>
+                  Airlines and freight firms issue advisories as severe weather delays shipping and fuels volatility.
+                </p>
+              </div>
+            </article>
+          </div>
+          <button class="view-more" type="button">View More</button>
+        </section>
+
+        <aside class="trending">
+          <header>
+            <h3>Trending Headlines</h3>
+            <button class="more">View all</button>
+          </header>
+          <ul class="trend-list">
+            <li class="trend-item">
+              <img src="https://picsum.photos/100/100?random=21" alt="trend" />
+              <div>
+                <h6>U.S. drones outpaced climate data satellites over the Atlantic</h6>
+                <p>2h ago</p>
+              </div>
+            </li>
+            <li class="trend-item">
+              <img src="https://picsum.photos/100/100?random=22" alt="trend" />
+              <div>
+                <h6>Hunter Austin May Be Replaced Ahead of Regional Expansion</h6>
+                <p>4h ago</p>
+              </div>
+            </li>
+            <li class="trend-item">
+              <img src="https://picsum.photos/100/100?random=23" alt="trend" />
+              <div>
+                <h6>LeBron James Keeps the NBA Valuable</h6>
+                <p>6h ago</p>
+              </div>
+            </li>
+            <li class="trend-item">
+              <img src="https://picsum.photos/100/100?random=24" alt="trend" />
+              <div>
+                <h6>Public Union says Race and Policy Debate Is Ready to Push Forward</h6>
+                <p>8h ago</p>
+              </div>
+            </li>
+            <li class="trend-item">
+              <img src="https://picsum.photos/100/100?random=25" alt="trend" />
+              <div>
+                <h6>NASA and DARPA are Working to Build Nuclear Thermal Rocket</h6>
+                <p>10h ago</p>
+              </div>
+            </li>
+            <li class="trend-item">
+              <img src="https://picsum.photos/100/100?random=26" alt="trend" />
+              <div>
+                <h6>Free Access to medical records with secure digital passports</h6>
+                <p>12h ago</p>
+              </div>
+            </li>
+          </ul>
+        </aside>
+      </div>
+
+      <section class="article-modal" aria-label="Article preview">
+        <article class="article">
+          <div class="article-cover">
+            <img src="https://picsum.photos/860/420?random=2" alt="article cover" />
+            <div class="close">×</div>
+          </div>
+          <div class="article-body">
+            <h2>Furor Over Chinese Spy Balloon Leads to a Diplomatic Crisis</h2>
+            <div class="meta">By Victoria Yu • 3 min read</div>
+            <p>
+              The Pentagon called the object, which has flown from Montana to Kansas, an “intelligence gathering”
+              balloon. Beijing said it was a weather balloon blown off course.
+            </p>
+            <p>
+              WASHINGTON — Secretary of State Antony J. Blinken on Friday canceled a weekend trip to Beijing after a
+              Chinese spy balloon was sighted above the Rocky Mountain state of Montana, igniting a frenzy of media
+              coverage and political commentary over a new chapter in the turbulent relationship between Washington and
+              Beijing.
+            </p>
+            <div class="inline"><img src="https://picsum.photos/860/420?random=3" alt="inline visual" /></div>
+            <p>
+              Chinese officials insisted it was a civilian craft and accused Washington of overreacting. U.S. officials,
+              however, argued the craft had crossed sensitive military zones, sharpening an already tense debate in
+              Congress and among allies.
+            </p>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container footer-row">
+        <div class="footer-logo">NEWSLETTER</div>
+        <div class="footer-links">
+          <span>Privacy Policy</span>
+          <span>Terms of Service</span>
+          <span>Copyright Notice</span>
+          <span>Data Policy</span>
+          <span>Accessibility</span>
+          <span>© 2026 Newsletter</span>
+        </div>
+        <div class="footer-cats">
+          <span>Politics</span><span>Travel</span><span>World</span><span>Climate</span><span>Economy</span><span>Lifestyle</span
+          ><span>Science &amp; Tech</span><span>Food</span><span>Business</span><span>Sports</span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
